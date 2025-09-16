@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header>
+    <style>
+
+    </style>
+</header>
+<body>
+<div th:fragment="searchContent" class="search-container animate__animated animate__fadeIn">
+    <div class="search-header">
+        <h2>Search Songs</h2>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput"
+                   placeholder="Search for songs by title or artist..."
+                   autocomplete="off">
+            <button class="clear-search" id="clearSearch" style="display: none;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Search results -->
+    <div id="searchResults" class="search-results"></div>
+
+    <!-- No results message -->
+    <div id="noResults" class="no-results" style="display: none;">
+        <i class="fas fa-music fa-3x text-muted mb-3"></i>
+        <p class="text-muted">No songs found. Try different keywords.</p>
+    </div>
+</div>
+
+</body>
+</html>

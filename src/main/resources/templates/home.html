@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appName ?: 'Music App'}">Music App</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <i class="fas fa-music"></i>
+            <span th:text="${appName ?: 'DeepTune'}">DeepTune</span>
+        </div>
+        <nav class="nav">
+            <a href="#features">Features</a>
+            <a href="#premium">Premium</a>
+            <a href="#download">Download</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <form th:action="@{/login}" method="get">
+            <button type="submit" class="btn btn-login">Sign In</button>
+        </form>
+
+        <form th:action="@{/register}" method="get">
+            <button type="submit" class="btn btn-login">Register</button>
+        </form>
+
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 th:text="${slogan ?: 'Your Personal Music Universe'}">Your Personal Music Universe</h1>
+            <p>Stream millions of songs, discover new artists, and create perfect playlists for every moment.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Start Free Trial</button>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="/Pictures/Monkey.png" alt="App screenshot" th:src="@{/Pictures/Monkey.png}">
+        </div>
+    </div>
+</section>
+
+<section id="features" class="features">
+    <div class="container">
+        <h2>Why Choose Our Music App</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-headphones"></i>
+                <h3>High Quality Audio</h3>
+                <p>Experience crystal clear sound with our premium audio quality.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Offline Listening</h3>
+                <p>Download your favorite tracks and listen anywhere, anytime.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-random"></i>
+                <h3>Smart Recommendations</h3>
+                <p>Discover new music tailored to your taste with our AI algorithm.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Social Sharing</h3>
+                <p>Share your favorite songs and playlists with friends.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="premium" class="premium">
+    <div class="container">
+        <h2>Go Premium</h2>
+        <p>Unlock all features with our affordable subscription plans</p>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <h3>Basic</h3>
+                <div class="price">$4.99<span>/month</span></div>
+                <ul>
+                    <li>Ad-free music</li>
+                    <li>Standard quality</li>
+                    <li>Limited skips</li>
+                </ul>
+                <button class="btn btn-outline">Choose Plan</button>
+            </div>
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <h3>Premium</h3>
+                <div class="price">$9.99<span>/month</span></div>
+                <ul>
+                    <li>Ad-free music</li>
+                    <li>High quality audio</li>
+                    <li>Unlimited skips</li>
+                    <li>Offline listening</li>
+                </ul>
+                <button class="btn btn-primary">Choose Plan</button>
+            </div>
+            <div class="pricing-card">
+                <h3>Family</h3>
+                <div class="price">$14.99<span>/month</span></div>
+                <ul>
+                    <li>6 premium accounts</li>
+                    <li>All premium features</li>
+                    <li>Family mix playlist</li>
+                </ul>
+                <button class="btn btn-outline">Choose Plan</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="download" class="download">
+    <div class="container">
+        <div class="download-content">
+            <h2>Download the App</h2>
+            <p>Available for all your favorite devices. Start listening today.</p>
+            <div class="download-buttons">
+                <button class="btn-download">
+                    <i class="fab fa-apple"></i>
+                    <span>Download on the<br><strong>App Store</strong></span>
+                </button>
+                <button class="btn-download">
+                    <i class="fab fa-google-play"></i>
+                    <span>Get it on<br><strong>Google Play</strong></span>
+                </button>
+            </div>
+        </div>
+        <div class="download-image">
+            <img src="/images/phones.png" alt="App on phones" th:src="@{/images/phones.png}">
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-music"></i>
+                <span th:text="${appName ?: 'DeepTune'}">DeepTune</span>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Jobs</a>
+                    <a href="#">For the Record</a>
+                </div>
+                <div class="link-group">
+                    <h4>Communities</h4>
+                    <a href="#">For Artists</a>
+                    <a href="#">Developers</a>
+                    <a href="#">Advertising</a>
+                </div>
+                <div class="link-group">
+                    <h4>Useful links</h4>
+                    <a href="#">Support</a>
+                    <a href="#">Web Player</a>
+                    <a href="#">Free Mobile App</a>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="legal-links">
+                <a href="#">Legal</a>
+                <a href="#">Privacy Center</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookies</a>
+                <a href="#">About Ads</a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 <span th:text="${appName ?: 'DeepTune'}">DeepTune</span> Music
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

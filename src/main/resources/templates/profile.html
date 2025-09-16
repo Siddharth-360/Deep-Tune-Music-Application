@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="profileContent" class="profile-container animate__animated animate__fadeIn">
+    <div class="profile-header">
+        <img id="profilePhotoPreview"
+             th:src="${listener.profilePhoto}"
+             src="https://ui-avatars.com/api/?name=User&background=1DB954&color=fff"
+             class="profile-avatar"
+             alt="Profile">
+        <h2 th:text="${listener.name}">User Name</h2>
+        <p th:text="${listener.email}" class="text-white-50">user@email.com</p>
+        <span class="badge-premium" th:if="${listener.isPremium}">Premium Member</span>
+        <span class="badge badge-secondary" th:unless="${listener.isPremium}">Free Member</span>
+    </div>
+
+    <div class="stats-grid mb-4">
+        <div class="stat-card">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Playlists</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Liked Songs</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Following</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Edit Profile</h4>
+            <form id="profileForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name"
+                           th:value="${listener.name}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           th:value="${listener.email}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="profilePhotoInput">Profile Photo</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="profilePhotoInput"
+                               name="profilePhoto" accept="image/*">
+                        <label class="custom-file-label" for="profilePhotoInput">Choose file</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button class="btn btn-success mb-2" id="upgradeBtn" th:unless="${listener.isPremium}">
+            <i class="fas fa-crown"></i> Upgrade to Premium
+        </button>
+        <button class="btn btn-warning mb-2" id="changePasswordBtn">
+            <i class="fas fa-key"></i> Change Password
+        </button>
+        <button class="btn btn-danger mb-2" id="deleteAccountBtn">
+            <i class="fas fa-trash"></i> Delete Account
+        </button>
+    </div>
+</div>
+</body>
+</html>
