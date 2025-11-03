@@ -27,4 +27,15 @@ public class SongService {
      }
 
     }
+
+    public Song getSongById(String songId) {
+        try {
+            Long num = Long.valueOf(songId);
+            // Use findById or findBySongId instead of existsBySongId
+            return songRepository.findById(num)
+                    .orElseThrow(() -> new IllegalArgumentException("Song not found with ID: " + songId));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid song ID format: " + songId);
+        }
+    }
 }

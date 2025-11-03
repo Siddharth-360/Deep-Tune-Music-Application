@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${appName ?: 'Music App'}">Music App</title>
-    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="stylesheet" href="/CSS/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -20,15 +20,11 @@
             <a href="#download">Download</a>
             <a href="#contact">Contact</a>
         </nav>
+  <nav class="nav">
+      <a href="/login" class="btn btn-login">Sign In</a>
+      <a href="/register" class="btn btn-login">Register</a>
 
-        <form th:action="@{/login}" method="get">
-            <button type="submit" class="btn btn-login">Sign In</button>
-        </form>
-
-        <form th:action="@{/register}" method="get">
-            <button type="submit" class="btn btn-login">Register</button>
-        </form>
-
+  </nav>
     </div>
 </header>
 
@@ -43,7 +39,7 @@
             </div>
         </div>
         <div class="hero-image">
-            <img src="/Pictures/Monkey.png" alt="App screenshot" th:src="@{/Pictures/Monkey.png}">
+            <img src="/Pictures/headphone.png" alt="App screenshot" th:src="@{/Pictures/headphone.png}">
         </div>
     </div>
 </section>
@@ -83,35 +79,36 @@
         <div class="pricing-cards">
             <div class="pricing-card">
                 <h3>Basic</h3>
-                <div class="price">$4.99<span>/month</span></div>
+                <div class="price" >₹4.99<span>/month</span></div>
                 <ul>
                     <li>Ad-free music</li>
                     <li>Standard quality</li>
                     <li>Limited skips</li>
                 </ul>
-                <button class="btn btn-outline">Choose Plan</button>
+                <button onclick="paymentMethod(this)" class="btn btn-outline" data-price="4.99">Choose Plan</button>
             </div>
             <div class="pricing-card popular">
                 <div class="popular-badge">Most Popular</div>
                 <h3>Premium</h3>
-                <div class="price">$9.99<span>/month</span></div>
+                <div class="price" >₹9.99<span>/month</span></div>
                 <ul>
                     <li>Ad-free music</li>
                     <li>High quality audio</li>
                     <li>Unlimited skips</li>
                     <li>Offline listening</li>
                 </ul>
-                <button class="btn btn-primary">Choose Plan</button>
+                <button onclick="paymentMethod(this)" class="btn btn-primary" data-price="9.99">Choose Plan</button>
             </div>
             <div class="pricing-card">
                 <h3>Family</h3>
-                <div class="price">$14.99<span>/month</span></div>
+                <div class="price" >₹14.99<span>/month</span></div>
+
                 <ul>
                     <li>6 premium accounts</li>
                     <li>All premium features</li>
                     <li>Family mix playlist</li>
                 </ul>
-                <button class="btn btn-outline">Choose Plan</button>
+                <button onclick="paymentMethod(this)" class="btn btn-outline" data-price="14.99">Choose Plan</button>
             </div>
         </div>
     </div>
@@ -186,5 +183,52 @@
         </div>
     </div>
 </footer>
+<script src="https://checkout.razorpay.com/v1/checkout.js" ></script>
+<script>
+
+   const paymentMethod = (btn) => {
+    console.log("Payment method clicked");
+    const price = btn.getAttribute("data-price");
+
+    fetch('/user/payment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({amount: price * 100})
+    })
+    .then(response => response.json())   // parse JSON body
+    .then(order => {
+        if (order.status === "created") {   // <-- check order.status here
+            console.log("Order created successfully:", order);
+             var options = {
+            key: "rzp_test_RL8etpXAZaTYH8",  // Replace with your Razorpay Key ID
+            amount: order.amount,            // amount in paise (subunits)
+            currency: order.currency,
+            name: "My Music Player",         // Your business name
+            description: "Premium Subscription",
+            order_id: order.id,              // Razorpay Order ID (important)
+            handler: function (response) {
+                console.log("Payment success:", response);
+
+            },
+
+            theme: {
+                color: "#3399cc"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        } else {
+            console.error("Order not created:", order);
+        }
+    })
+    .catch(error => {
+        console.error("Error during payment:", error);
+    });
+};
+
+</script>
 </body>
 </html>

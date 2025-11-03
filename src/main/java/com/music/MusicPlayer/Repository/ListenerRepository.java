@@ -9,4 +9,6 @@ public  interface ListenerRepository extends JpaRepository<Listener,Long> {
 
 
     Listener getByEmail(String email);
+
+    Listener findByEmail(String email);
 }

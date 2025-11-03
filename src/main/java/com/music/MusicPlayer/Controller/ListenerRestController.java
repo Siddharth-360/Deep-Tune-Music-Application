@@ -1,6 +1,5 @@
-package com.music.MusicPlayer.Contoller;
+package com.music.MusicPlayer.Controller;
 
-import com.music.MusicPlayer.Models.Listener;
 import com.music.MusicPlayer.Models.Song;
 import com.music.MusicPlayer.Service.ListenerService;
 import org.springframework.beans.factory.annotation.Autowired;

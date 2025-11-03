@@ -1,5 +1,6 @@
 package com.music.MusicPlayer.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Listener {
             joinColumns = @JoinColumn(name = "listener_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id")
     )
+    @JsonIgnore
     private List<Song> likedSongs = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -44,8 +46,14 @@ public class Listener {
             joinColumns = @JoinColumn(name = "listener_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id")
     )
-    @OrderColumn(name = "play_order") // This maintains the order in the database
+    @OrderColumn(name = "play_order")
+    @JsonIgnore
     private List<Song> recentlyPlayed = new ArrayList<>();
+
+    // NEW: Playlists owned by this listener
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Playlist> playlists = new ArrayList<>();
 
     // Maximum number of recently played songs to store
     private static final int MAX_RECENTLY_PLAYED = 10;
@@ -62,18 +70,12 @@ public class Listener {
 
     // Method to add a song to recently played
     public void addToRecentlyPlayed(Song song) {
-        // Remove the song if it already exists in the list
         recentlyPlayed.remove(song);
-
-        // Add the song to the beginning of the list
         recentlyPlayed.add(0, song);
-
-        // Keep only the last 10 songs
         if (recentlyPlayed.size() > MAX_RECENTLY_PLAYED) {
             recentlyPlayed = new ArrayList<>(recentlyPlayed.subList(0, MAX_RECENTLY_PLAYED));
         }
     }
-
 
     // Method to clear recently played songs
     public void clearRecentlyPlayed() {
@@ -88,6 +90,41 @@ public class Listener {
     // Get the most recently played song
     public Song getMostRecentlyPlayed() {
         return recentlyPlayed.isEmpty() ? null : recentlyPlayed.get(0);
+    }
+
+    // NEW: Playlist management methods
+    public void addPlaylist(Playlist playlist) {
+        if (!playlists.contains(playlist)) {
+            playlists.add(playlist);
+            playlist.setOwner(this);
+        }
+    }
+
+    public void removePlaylist(Playlist playlist) {
+        playlists.remove(playlist);
+        playlist.setOwner(null);
+    }
+
+    public Playlist getPlaylistByName(String name) {
+        return playlists.stream()
+                .filter(playlist -> playlist.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    // Helper methods for liked songs
+    public void addLikedSong(Song song) {
+        if (!likedSongs.contains(song)) {
+            likedSongs.add(song);
+        }
+    }
+
+    public void removeLikedSong(Song song) {
+        likedSongs.remove(song);
+    }
+
+    public boolean isLikedSong(Song song) {
+        return likedSongs.contains(song);
     }
 
     // Getters and Setters
@@ -153,24 +190,17 @@ public class Listener {
 
     public void setRecentlyPlayed(List<Song> recentlyPlayed) {
         this.recentlyPlayed = recentlyPlayed;
-        // Ensure we don't exceed the limit even when setting directly
         if (this.recentlyPlayed.size() > MAX_RECENTLY_PLAYED) {
             this.recentlyPlayed = new ArrayList<>(this.recentlyPlayed.subList(0, MAX_RECENTLY_PLAYED));
         }
     }
 
-    // Helper methods for liked songs
-    public void addLikedSong(Song song) {
-        if (!likedSongs.contains(song)) {
-            likedSongs.add(song);
-        }
+    // NEW: Playlists getter and setter
+    public List<Playlist> getPlaylists() {
+        return playlists;
     }
 
-    public void removeLikedSong(Song song) {
-        likedSongs.remove(song);
-    }
-
-    public boolean isLikedSong(Song song) {
-        return likedSongs.contains(song);
+    public void setPlaylists(List<Playlist> playlists) {
+        this.playlists = playlists;
     }
 }

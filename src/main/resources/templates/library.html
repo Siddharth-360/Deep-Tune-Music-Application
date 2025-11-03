@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Library</title>
+    <link rel="stylesheet" href="CSS/library.css">
+</head>
+<body>
+<div th:fragment="libraryContent" class="profile-container animate__animated animate__fadeIn">
+<div class="library-content">
+    <header class="library-header animate__animated animate__fadeIn">
+        <h1>Your Library</h1>
+        <div class="library-stats">
+            <div class="stat-item">
+                <span class="stat-number" id="likedSongsCount" th:text="${likedSongsCount}">0</span>
+                <span class="stat-label">Liked Songs</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="playlistsCount" th:text="${playlistsCount}">0</span>
+                <span class="stat-label">Playlists</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="recentTracksCount" th:text="${recentTracksCount}">0</span>
+                <span class="stat-label">Recently Played</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="library-tabs">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="liked-songs">
+                <i class="fas fa-heart"></i>
+                Liked Songs
+            </button>
+            <button class="tab-button" data-tab="playlists">
+                <i class="fas fa-list"></i>
+                Playlists
+            </button>
+            <button class="tab-button" data-tab="recently-played">
+                <i class="fas fa-history"></i>
+                Recently Played
+            </button>
+        </div>
+
+        <!-- Liked Songs Tab -->
+        <div id="liked-songs" class="tab-content active">
+            <div class="tab-header">
+                <h2>Liked Songs</h2>
+                <button class="btn-shuffle" onclick="libraryManager.shuffleLikedSongs()">
+                    <i class="fas fa-random"></i>
+                    Shuffle Play
+                </button>
+            </div>
+            <div class="songs-list" id="likedSongsList">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading liked songs...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Playlists Tab -->
+        <div id="playlists" class="tab-content">
+            <div class="tab-header">
+                <h2>Your Playlists</h2>
+                <button class="btn-create" onclick="libraryManager.showCreatePlaylistModal()">
+                    <i class="fas fa-plus"></i>
+                    Create Playlist
+                </button>
+            </div>
+            <div class="playlists-grid" id="playlistsGrid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading playlists...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recently Played Tab -->
+        <div id="recently-played" class="tab-content">
+            <div class="tab-header">
+                <h2>Recently Played</h2>
+                <button class="btn-clear" onclick="libraryManager.clearRecentHistory()">
+                    <i class="fas fa-trash"></i>
+                    Clear History
+                </button>
+            </div>
+            <div class="recent-tracks-list" id="recentTracksList">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading recently played...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Playlist Modal -->
+<div class="modal fade" id="createPlaylistModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h5 class="modal-title text-light">Create New Playlist</h5>
+                <button type="button" class="close text-light" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createPlaylistForm">
+                    <div class="form-group">
+                        <label for="playlistName" class="text-light">Playlist Name</label>
+                        <input type="text" class="form-control bg-dark text-light" id="playlistName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="playlistDescription" class="text-light">Description (Optional)</label>
+                        <textarea class="form-control bg-dark text-light" id="playlistDescription" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="libraryManager.createPlaylist()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </div>
+</body>
+</html>

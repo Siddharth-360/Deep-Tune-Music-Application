@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+
+    </style>
+</head>
 <body>
 <div th:fragment="profileContent" class="profile-container animate__animated animate__fadeIn">
+    <!-- Profile Header -->
     <div class="profile-header">
         <img id="profilePhotoPreview"
              th:src="${listener.profilePhoto}"
@@ -10,48 +16,71 @@
              alt="Profile">
         <h2 th:text="${listener.name}">User Name</h2>
         <p th:text="${listener.email}" class="text-white-50">user@email.com</p>
-        <span class="badge-premium" th:if="${listener.isPremium}">Premium Member</span>
-        <span class="badge badge-secondary" th:unless="${listener.isPremium}">Free Member</span>
+        <span class="badge-premium" th:if="${listener.isPremium}">
+            <i class="fas fa-crown me-2"></i>Premium Member
+        </span>
+        <span class="badge-secondary" th:unless="${listener.isPremium}">
+            <i class="fas fa-user me-2"></i>Free Member
+        </span>
     </div>
 
-    <div class="stats-grid mb-4">
-        <div class="stat-card">
-            <div class="stat-number">0</div>
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card" onclick="showSection('library')">
+            <span class="stat-number">0</span>
             <div class="stat-label">Playlists</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-number">0</div>
+        <div class="stat-card" onclick="showSection('library')">
+            <span class="stat-number">0</span>
             <div class="stat-label">Liked Songs</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">0</div>
+            <span class="stat-number">0</span>
             <div class="stat-label">Following</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">0</span>
+            <div class="stat-label">Hours Listened</div>
         </div>
     </div>
 
-    <div class="card">
+    <!-- Edit Profile Card -->
+    <div class="profile-card">
+        <div class="card-header">
+            <h4 class="card-title">
+                <i class="fas fa-user-edit"></i>Edit Profile
+            </h4>
+        </div>
         <div class="card-body">
-            <h4 class="card-title mb-4">Edit Profile</h4>
             <form id="profileForm" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="name">Name</label>
+                    <label for="name"><i class="fas fa-user"></i> Display Name</label>
                     <input type="text" class="form-control" id="name" name="name"
-                           th:value="${listener.name}" required>
+                           th:value="${listener.name}"
+                           placeholder="Enter your display name"
+                           required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
                     <input type="email" class="form-control" id="email" name="email"
-                           th:value="${listener.email}" required>
+                           th:value="${listener.email}"
+                           placeholder="Enter your email address"
+                           required>
                 </div>
 
                 <div class="form-group">
-                    <label for="profilePhotoInput">Profile Photo</label>
+                    <label for="profilePhotoInput"><i class="fas fa-camera"></i> Profile Photo</label>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="profilePhotoInput"
                                name="profilePhoto" accept="image/*">
-                        <label class="custom-file-label" for="profilePhotoInput">Choose file</label>
+                        <label class="custom-file-label" for="profilePhotoInput">
+                            <i class="fas fa-upload me-2"></i>Choose profile picture
+                        </label>
                     </div>
+                    <small class="text-muted" style="color: var(--light-gray) !important;">
+                        Recommended: Square image, max 5MB
+                    </small>
                 </div>
 
                 <button type="submit" class="btn btn-primary">
@@ -61,17 +90,63 @@
         </div>
     </div>
 
-    <div class="mt-4">
-        <button class="btn btn-success mb-2" id="upgradeBtn" th:unless="${listener.isPremium}">
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button class="btn btn-success" id="upgradeBtn" th:unless="${listener.isPremium}">
             <i class="fas fa-crown"></i> Upgrade to Premium
         </button>
-        <button class="btn btn-warning mb-2" id="changePasswordBtn">
+        <button class="btn btn-warning" id="changePasswordBtn">
             <i class="fas fa-key"></i> Change Password
         </button>
-        <button class="btn btn-danger mb-2" id="deleteAccountBtn">
+        <button class="btn btn-danger" id="deleteAccountBtn">
             <i class="fas fa-trash"></i> Delete Account
         </button>
     </div>
+
+    <!-- Premium Features Section (Only show for free users) -->
+    <div class="premium-features" th:unless="${listener.isPremium}">
+        <div class="profile-card">
+            <div class="card-header">
+                <h4 class="card-title">
+                    <i class="fas fa-crown"></i> Premium Features
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h5>Ad-Free Music</h5>
+                        <p>Listen without interruptions from ads</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h5>Offline Listening</h5>
+                        <p>Download songs and listen offline</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <h5>Unlimited Skips</h5>
+                        <p>Skip as many songs as you want</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h5>High Quality</h5>
+                        <p>Enhanced audio quality</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="JS/Profile.js"></script>
 </body>
 </html>

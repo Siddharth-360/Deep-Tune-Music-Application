@@ -1,15 +1,9 @@
-package com.music.MusicPlayer.Contoller;
+package com.music.MusicPlayer.Controller;
 
-import com.music.MusicPlayer.Models.Song;
-import com.music.MusicPlayer.Models.Track;
 import com.music.MusicPlayer.Service.ApiService;
 import com.music.MusicPlayer.Service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/song")

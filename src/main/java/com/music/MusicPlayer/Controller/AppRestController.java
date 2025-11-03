@@ -1,4 +1,4 @@
-package com.music.MusicPlayer.Contoller;
+package com.music.MusicPlayer.Controller;
 
 import com.music.MusicPlayer.Service.EmailService;
 import com.music.MusicPlayer.Service.OtpService;
