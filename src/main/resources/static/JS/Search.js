@@ -415,6 +415,7 @@ function showNotification(message, type = 'info') {
 // ===================================
 
 window.initializeSearch = initializeSearch;
+window.initializeSearchSection = initializeSearch; // ✅ ADDED - Compatibility with Main.js
 window.handleSearch = handleSearch;
 window.performSearch = performSearch;
 window.displaySearchResults = displaySearchResults;
